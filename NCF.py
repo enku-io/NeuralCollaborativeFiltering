@@ -32,12 +32,12 @@ class NCF(nn.Module):
         return x
 
     def getMovies(self, userId):
-        ratings = []
+        ratings = {}
         for itemId in range(self.num_items):
             emb = F.relu(
                 torch.cat([self.user_emb(torch.LongTensor([[userId]])), self.item_emb(torch.LongTensor([[itemId]]))]))
             x = F.relu(self.hidden_0(emb.flatten()))
             x = F.relu(self.hidden_1(x))
-            ratings.append(x.item())
+            ratings[itemId] = x.item()
 
         return ratings
